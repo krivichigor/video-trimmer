@@ -26,6 +26,7 @@ class StoreVideoProcess extends FormRequest
         return [
             'trim_from' => 'required|numeric|min:0',
             'trim_to' => 'required|numeric|min:0|greater_than_field:trim_from',
+            'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime,video/x-flv'
         ];
     }
 }
