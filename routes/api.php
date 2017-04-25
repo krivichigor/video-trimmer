@@ -16,6 +16,6 @@ use Illuminate\Http\Request;
 
 
 //middleware('auth:api')->
-Route::group(['prefix' => 'v1', ], function () {
+Route::group(['prefix' => 'v1', 'middleware' => 'wants.json' ], function () {
 	Route::post('/users', 'Api\v1\UserController@store');
 });
