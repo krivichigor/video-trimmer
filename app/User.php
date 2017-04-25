@@ -16,10 +16,6 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
 {
     use Notifiable, Authenticatable, Authorizable;
 
-    protected $primaryKey = 'api_token';
-
-    public $incrementing = false;
-
     protected $collection = 'users_collection';
 
     protected $connection = 'mongodb';
@@ -38,6 +34,19 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
      */
     protected $hidden = [];
 
+
+    /*
+     * Relations
+    */
+    
+    public function video_processes()
+    {
+        return $this->hasMany('App\VideoProcess');
+    }
+
+    /*
+     * Methods
+    */
 
     public function generateUniqueApiToken()
     {

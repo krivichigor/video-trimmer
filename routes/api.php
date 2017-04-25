@@ -15,15 +15,16 @@ use Illuminate\Http\Request;
 
 
 Route::group([
-		'prefix' => 'v1',
+		'prefix' 	 => 'v1',
 		'middleware' => 'wants.json',
-		'namespace' => 'Api\v1' 
+		'namespace'  => 'Api\v1' 
 	],
 	function () {
 		Route::post('/users', 'UserController@store');
 
 		Route::group(['middleware' => 'auth:api'], function () {
 			Route::post('/videos', 'VideoController@store');
+			Route::get('/videos', 'VideoController@index');
 		});
 	
 });

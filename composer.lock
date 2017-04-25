@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07ee2ff377262b708cc7793319da5ad9",
+    "content-hash": "d357ff1a9c41c05b2832ad1d7c832c66",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -234,6 +234,42 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "james-heinrich/getid3",
+            "version": "v1.9.14",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JamesHeinrich/getID3.git",
+                "reference": "30bd11473b0eef6f1b47866ef7ab0a557917fc21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/30bd11473b0eef6f1b47866ef7ab0a557917fc21",
+                "reference": "30bd11473b0eef6f1b47866ef7ab0a557917fc21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "getid3/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "description": "PHP script that extracts useful information from popular multimedia file formats",
+            "homepage": "http://www.getid3.org/",
+            "keywords": [
+                "codecs",
+                "php",
+                "tags"
+            ],
+            "time": "2017-03-27T21:12:55+00:00"
         },
         {
             "name": "jenssegers/mongodb",

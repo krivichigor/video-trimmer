@@ -16,7 +16,11 @@ class WantsJson
     public function handle($request, Closure $next)
     {
         if(!$request->wantsJson()) {
-            return response()->json(['error' => 'expects application/json Accept header'], 403);
+            return response()->json([
+                'error' => [
+                    'message' => 'expects application/json Accept header'
+                ]
+            ], 403);
         }
         return $next($request);
     }
