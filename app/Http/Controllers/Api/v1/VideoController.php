@@ -10,9 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        
+        $user_id = $request->user()->id;
+
+        $videos = VideoProcess::byUser($user_id)
+                              ->ordered()
+                              ->withVideos()
+                              ->get();
+                              
+        return response()->json([
+            'videos' => $videos
+        ]);
     }
 
 
@@ -30,12 +39,14 @@ class VideoController extends Controller
 
         $user = $request->user();
         $videoProcess = $user->video_processes()->create($request->except('video'));
-        
         $videoProcess->saveOriginalVideo($request['video']);
+        $videoProcess->save();
         
         dispatch(new TrimVideo($videoProcess));
 
-        return $videoProcess->original_video;
+        return response()->json([
+            'message' => 'Trimming is scheduled'
+        ], 201);
 
     	
     }

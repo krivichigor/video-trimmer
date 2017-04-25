@@ -31,7 +31,7 @@ class VideoProcess extends Eloquent
      *
      * @var array
      */
-    protected $hidden = [];
+    protected $hidden = ['updated_at'];
 
 
     /*
@@ -60,6 +60,16 @@ class VideoProcess extends Eloquent
     public function scopeWithVideos($query)
     {
         return $query->with(['result_video', 'original_video']);
+    }
+
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeByUser($query, $user_id)
+    {
+        return $query->where('user_id', $user_id);
     }
 
     /*

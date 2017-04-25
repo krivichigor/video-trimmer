@@ -33,7 +33,7 @@ class TrimVideo implements ShouldQueue
     public function handle()
     {
         $this->video_process->setStatusProcessing();
-        $this->video_process->result_video()->save($this->trim());
+        $this->video_process->result_video = $this->trim();
         $this->video_process->setStatusDone();
     }
 
