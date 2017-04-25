@@ -28,4 +28,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [];
+
+
+    public function generateUniqueApiToken()
+    {
+        while (self::find($api_token = str_random(60))) {
+            $api_token = str_random(60);
+        }
+        return $api_token;
+    }
 }
