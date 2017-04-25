@@ -46,7 +46,9 @@ class TrimVideo implements ShouldQueue
 
     protected function trim()
     {
-        sleep(rand(20,120));
+        $min = ENV('TRIM_MIN_SLEEP_TIME', 20);
+        $max = ENV('TRIM_MAX_SLEEP_TIME', 120);
+        sleep(rand($min, $max));
         return Video::create($this->video_process->original_video->toArray());
     }
 
