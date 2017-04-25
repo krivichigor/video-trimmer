@@ -23,14 +23,13 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
     protected $collection = 'users_collection';
 
     protected $connection = 'mongodb';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'api_token',
-    ];
+    protected $fillable = ['api_token'];
 
     /**
      * The attributes that should be hidden for arrays.
