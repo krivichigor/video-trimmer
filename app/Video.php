@@ -9,8 +9,7 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Video extends Eloquent
 {
-
-	protected $collection = 'video_processes_collection';
+	protected $collection = 'video_collection';
 
     protected $connection = 'mongodb';
 
