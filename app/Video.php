@@ -14,6 +14,8 @@ class Video extends Eloquent
 
     protected $connection = 'mongodb';
 
+    protected $fillable = ['url', 'duration'];
+
     protected $hidden = ['created_at', 'updated_at', '_id', 'video_process_id'];
     
     /*

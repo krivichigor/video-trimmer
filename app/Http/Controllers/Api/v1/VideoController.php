@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-use App\Video;
 use App\VideoProcess;
+use App\Jobs\TrimVideo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreVideoProcess;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -18,7 +17,7 @@ class VideoController extends Controller
 
 
 	/*
-	* StoreVideoProcess - contains validation rules for request
+	* 
 	*/
     public function store(Request $request)
     {
@@ -31,9 +30,10 @@ class VideoController extends Controller
 
         $user = $request->user();
         $videoProcess = $user->video_processes()->create($request->except('video'));
+        
         $videoProcess->saveOriginalVideo($request['video']);
         
-        $videoProcess->startTrim();
+        dispatch(new TrimVideo($videoProcess));
 
         return $videoProcess->original_video;
 
