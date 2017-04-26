@@ -57,10 +57,14 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
         return $api_token;
     }
 
-    public function createVideoProcess(Request $request)
+    public function createVideoProcess($data)
     {
-        $videoProcess = $this->video_processes()->create($request->except('video'));
-        $videoProcess->saveOriginalVideo($request['video']);
+        $videoProcess = $this->video_processes()->create([
+            'trim_from' => $data['trim_from'],
+            'trim_to' =>$data['trim_to']
+        ]);
+        $videoProcess->saveOriginalVideo($data['video']);
         $videoProcess->setDefaultStatus();
+        return $videoProcess;
     }
 }

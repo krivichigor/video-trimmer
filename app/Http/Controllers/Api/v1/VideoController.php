@@ -55,7 +55,7 @@ class VideoController extends Controller
 
         $user = $request->user();
 
-        $user->createVideoProcess($request);
+        $user->createVideoProcess($request->all());
         
         return response()->json([
             'message' => 'Trimming is scheduled',
