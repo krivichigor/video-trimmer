@@ -39,7 +39,7 @@ class VideoGetTest extends ApiTestCase
 
     public function tests_get_videos_allright_expects_200()
     {
-        $this->json(self::METHOD, self::URL, [], ['Authorization' => 'Bearer ' . $this->get_api_token()])
+        $this->json(self::METHOD, self::URL, [], $this->get_auth_header())
              ->assertStatus(200)
              ->assertJsonStructure([
                  "total",
@@ -57,7 +57,7 @@ class VideoGetTest extends ApiTestCase
 
     public function tests_get_videos_wrong_page_value_expects_422()
     {
-        $this->json(self::METHOD, self::URL . '?page=-1', [], ['Authorization' => 'Bearer ' . $this->get_api_token()])
+        $this->json(self::METHOD, self::URL . '?page=-1', [], $this->get_auth_header())
              ->assertStatus(422)
              ->assertJsonStructure([
                  'error' => [
@@ -68,7 +68,7 @@ class VideoGetTest extends ApiTestCase
 
     public function tests_get_videos_wrong_page_letters_value_expects_422()
     {
-        $this->json(self::METHOD, self::URL . '?page=asd', [], ['Authorization' => 'Bearer ' . $this->get_api_token()])
+        $this->json(self::METHOD, self::URL . '?page=asd', [], $this->get_auth_header())
              ->assertStatus(422)
              ->assertJsonStructure([
                  'error' => [

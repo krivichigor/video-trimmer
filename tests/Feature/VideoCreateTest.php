@@ -37,7 +37,7 @@ class VideoCreateTest extends ApiTestCase
 
     public function tests_creating_video_without_parameters_expected_422()
     {
-        $this->json(self::METHOD, self::URL, [], ['Authorization' => 'Bearer ' . $this->get_api_token()])
+        $this->json(self::METHOD, self::URL, [], $this->get_auth_header())
              ->assertStatus(422)
              ->assertJsonStructure($this->creating_validation_error_structure([
 	             	'trim_from',
