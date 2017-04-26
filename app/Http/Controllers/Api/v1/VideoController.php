@@ -49,8 +49,8 @@ class VideoController extends Controller
 
         $this->validate($request, [
             'trim_from' => 'required|numeric|min:0',
-            'trim_to'   => 'required|numeric|min:0|greater_than_field:trim_from',
-            'video'     => 'required|max:102400|duration_less_than_field:trim_to|mimetypes:video/avi,video/mpeg,video/quicktime,video/x-flv'
+            'trim_to'   => 'required|numeric|min:0|greater_than_field:trim_from|less_than_duration_of:video',
+            'video'     => 'required|max:102400|mimetypes:video/avi,video/mpeg,video/quicktime,video/x-flv'
         ]);
 
         $user = $request->user();

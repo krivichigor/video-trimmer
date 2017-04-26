@@ -3,24 +3,25 @@
 namespace Tests\Feature;
 
 use App\User;
-use Tests\TestCase;
+use Tests\ApiTestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UsersTest extends TestCase
+class UsersTest extends ApiTestCase
 {
-    //use DatabaseTransactions;
+    const URL    = 'api/v1/users';
+    const METHOD = 'POST';
 
     public function tests_creating_new_user_respons_201()
     {
-        $response = $this->json('POST', 'api/v1/users');
+        $response = $this->json(self::METHOD, self::URL);
         $response->assertStatus(201);
     }
 
     public function tests_creating_new_user_json_structure()
     {
-        $this->json('POST', 'api/v1/users')
+        $this->json(self::METHOD, self::URL)
              ->assertJsonStructure([
                  'data' => [
                      'api_token'
@@ -31,7 +32,7 @@ class UsersTest extends TestCase
     public function tests_check_new_user_exists_in_database()
     {
 
-        $content = $this->json('POST', 'api/v1/users')->decodeResponseJson();;
+        $content = $this->json(self::METHOD, self::URL)->decodeResponseJson();
 
         $token = $content['data']['api_token'];
 

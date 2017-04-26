@@ -23,7 +23,7 @@ class UserController extends Controller
     	$user->api_token = $user->generateUniqueApiToken();
     	$user->save();
 
-    	return response()->json(['data' => $this->transformer->transform($user)]);
+    	return response()->json(['data' => $this->transformer->transform($user)], 201);
         
     }
 }
