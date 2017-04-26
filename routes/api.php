@@ -25,6 +25,7 @@ Route::group([
 		Route::group(['middleware' => 'auth:api'], function () {
 			Route::post('/videos', 'VideoController@store');
 			Route::get('/videos', 'VideoController@index');
+			Route::put('/videos/{id}', 'VideoController@update');
 		});
 	
 });

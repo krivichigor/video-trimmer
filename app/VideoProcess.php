@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Video;
+use App\Jobs\TrimVideo;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
@@ -79,20 +80,25 @@ class VideoProcess extends Eloquent
      * Methods
     */
 
-    protected static function boot()
-    {
-        parent::boot();
 
-        static::creating(function ($model)
-        {
-            $model->setDefaultStatus();
-        });
+    public function saveOriginalVideo(UploadedFile $file)
+    {
+        $video = new Video;
+        $video->createFromRequest($file);
+        $video->save();
+
+        $this->original_video()->associate($video);
+        
     }
 
-    protected function setDefaultStatus()
+    /*
+     * Working with statuses
+    */
+
+    public function setDefaultStatus()
     {
-        $this->attributes['status'] = self::STATUS_DEFAULT;
-        return true;
+        $this->setStatus(self::STATUS_DEFAULT);
+        dispatch(new TrimVideo($this));
     }
 
     public function setStatusProcessing(){
@@ -113,15 +119,11 @@ class VideoProcess extends Eloquent
         $this->save();
     }
 
-    public function saveOriginalVideo(UploadedFile $file)
-    {
-        $video = new Video;
-        $video->createFromRequest($file);
-        $video->save();
-
-        $this->original_video()->associate($video);
-        
+    public function canBeRestarted(){
+        return ($this->status == self::STATUS_FAILED);
     }
+
+    
 
 
     
