@@ -35,9 +35,9 @@ class VideoController extends Controller
 
         $videos['data'] = $this->transformer->transformArray($videos['data']);
 
-        return response()->json([
+        return response()->json(
             $videos
-        ]);
+        );
     }
 
 
