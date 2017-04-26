@@ -13,15 +13,21 @@ class VideoController extends Controller
 
     public function index(Request $request)
     {
+
+        $this->validate($request, [
+            'page' => 'numeric|min:1',
+            // |max:' . $videos->lastPage() - validation of the max value. 
+        ]);
+
         $user_id = $request->user()->id;
 
         $videos = VideoProcess::byUser($user_id)
                               ->ordered()
                               ->withVideos()
                               ->paginate(env('RESULTS_PER_PAGE', 10));
-
+                              
         return response()->json([
-            'videos' => $videos
+            $videos
         ]);
     }
 
@@ -48,7 +54,8 @@ class VideoController extends Controller
         return response()->json([
             'message' => 'Trimming is scheduled'
         ], 201);
-
-    	
+	
     }
+
+
 }
