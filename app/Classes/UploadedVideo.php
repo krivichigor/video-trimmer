@@ -16,7 +16,7 @@ class UploadedVideo
 	public function moveFile($path = 'videos', $storage = 'public')
     {
     	$path = $this->file->store($path, $storage);
-		return $path;
+		return url($path);
     }
 
     public function getDuration()
