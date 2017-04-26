@@ -22,4 +22,13 @@ class Controller extends BaseController
 	        ]
         ];
     }
+
+    protected function errorJson($message = '', $code = 404)
+    {
+        return response()->json([
+                'error' => [
+                    'message' => $message,
+                ]
+            ], $code);   
+    }
 }
