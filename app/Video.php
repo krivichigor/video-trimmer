@@ -9,6 +9,8 @@ use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 class Video extends Eloquent
 {
+    const VIDEO_FOLDER = 'videos/original';
+
 	protected $collection = 'video_collection';
 
     protected $connection = 'mongodb';
@@ -33,7 +35,7 @@ class Video extends Eloquent
     public function createFromFile(UploadedFile $file)
     {
     	$video = new UploadedVideo($file);
-    	$folder_path = 'videos/original'; ///' . $this->video_process->user->id . ' - path with user_id folder
+    	$folder_path = self::VIDEO_FOLDER; ///' . $this->video_process->user->id . ' - path with user_id folder
 
 		$this->url 		= $video->moveFile($folder_path);
 		$this->duration = $video->getDuration();

@@ -60,13 +60,13 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
 
     public function generateUniqueApiToken()
     {
-        while (self::find($api_token = str_random(60))) {
+        while (self::where('api_token', $api_token = str_random(60))->get()->first()) {
             $api_token = str_random(60);
         }
         return $api_token;
     }
 
-    public function createVideoProcess($data)
+    public function createVideoProcess(array $data)
     {
         $videoProcess = $this->video_processes()->create([
             'trim_from' => $data['trim_from'],
