@@ -24,14 +24,17 @@ class VideoProcess extends Eloquent
      *
      * @var array
      */
-    protected $fillable = ['trim_from', 'trim_to', 'status'];
+    protected $fillable = ['trim_from', 'trim_to', 'status',];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['updated_at'];
+    protected $hidden = ['updated_at', 'user_id'];
+
+
+    protected $dates = ['trim_finished_at'];
 
 
     /*
@@ -101,6 +104,7 @@ class VideoProcess extends Eloquent
     }
 
     public function setStatusDone(){
+        $this->trim_finished_at = \Carbon\Carbon::now();
         $this->setStatus(self::STATUS_DONE);
     }
 
