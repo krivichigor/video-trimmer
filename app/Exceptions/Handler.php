@@ -49,12 +49,18 @@ class Handler extends ExceptionHandler
 
     protected function prepareResponse($request, Exception $e)
     {
-        $m = $e->getMessage();
-        if ($m == ""){
-            $classNameWithNamespace = get_class($e);
-            $m = substr($classNameWithNamespace, strrpos($classNameWithNamespace, '\\')+1);
+        if ($request->expectsJson()) {
+            $m = $e->getMessage();
+            if ($m == ""){
+                $classNameWithNamespace = get_class($e);
+                $m = substr($classNameWithNamespace, strrpos($classNameWithNamespace, '\\')+1);
+            }
+            return response()->json(['error' => ['message' => $m]], $e->getStatusCode());
         }
-        return response()->json(['error' => ['message' => $m]], $e->getStatusCode());
+
+        return parent::prepareResponse($request, $e);
+
+        
     }
 
     /**
@@ -66,7 +72,10 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        return response()->json(['error' => 'Unauthenticated.'], 401);
+        if ($request->expectsJson()) {
+            return response()->json(['error' => ['message' => 'Unauthenticated']], 401);
+        }
+        return parent::convertExceptionToResponse($exception);
     }
 
 }
