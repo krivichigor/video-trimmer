@@ -18,7 +18,7 @@ class Controller extends BaseController
         return [
 	        'error' => [
 		        'message' => 'Validation failed',
-		        'errors' => $validator->errors()
+		        'details' => $validator->errors()
 	        ]
         ];
     }
