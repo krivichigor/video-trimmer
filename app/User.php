@@ -49,6 +49,15 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
      * Methods
     */
 
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function($model){
+            $model->api_token = $model->generateUniqueApiToken();
+        });
+    }
+
     public function generateUniqueApiToken()
     {
         while (self::find($api_token = str_random(60))) {
@@ -63,8 +72,8 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
             'trim_from' => $data['trim_from'],
             'trim_to' =>$data['trim_to']
         ]);
-        $videoProcess->saveOriginalVideo($data['video']);
-        $videoProcess->setDefaultStatus();
+        $videoProcess->saveOriginalVideo($data['video'])
+                     ->setDefaultStatus();
         return $videoProcess;
     }
 }

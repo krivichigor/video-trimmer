@@ -87,6 +87,7 @@ class VideoProcess extends Eloquent
         $video->createFromFile($file)->save();
 
         $this->original_video()->associate($video);
+        return $this;
         
     }
 

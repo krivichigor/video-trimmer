@@ -19,9 +19,7 @@ class UserController extends Controller
     public function store()
     {
    	
-    	$user = new User;
-    	$user->api_token = $user->generateUniqueApiToken();
-    	$user->save();
+    	$user = User::create();
 
     	return response()->json(['data' => $this->transformer->transform($user)], 201);
         
