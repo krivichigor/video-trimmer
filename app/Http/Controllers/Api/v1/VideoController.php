@@ -6,9 +6,17 @@ use App\VideoProcess;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Api\v1\Transformers\VideoTransformer;
 
 class VideoController extends Controller
 {
+
+    protected $transformer;
+
+    public function __construct(VideoTransformer $videoTransormer)
+    {
+        $this->transformer = $videoTransormer;
+    }
 
     public function index(Request $request)
     {
@@ -22,8 +30,11 @@ class VideoController extends Controller
         $videos = VideoProcess::byUser($user_id)
                               ->ordered()
                               ->withVideos()
-                              ->paginate(env('RESULTS_PER_PAGE', 10));
-                              
+                              ->paginate(env('RESULTS_PER_PAGE', 10))
+                              ->toArray();
+
+        $videos['data'] = $this->transformer->transformArray($videos['data']);
+
         return response()->json([
             $videos
         ]);
@@ -47,7 +58,6 @@ class VideoController extends Controller
         $videoProcess = $user->video_processes()->create($request->except('video'));
         $videoProcess->saveOriginalVideo($request['video']);
         $videoProcess->setDefaultStatus();
-        $videoProcess->save();
         
         return response()->json([
             'message' => 'Trimming is scheduled',
@@ -77,14 +87,9 @@ class VideoController extends Controller
             
     }
 
+    
 
-    protected function errorJson($message = '', $code = 404)
-    {
-        return response()->json([
-                'error' => [
-                    'message' => $message,
-                ]
-            ], $code);   
-    }
+
+    
 
 }

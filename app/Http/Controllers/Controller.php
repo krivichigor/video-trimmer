@@ -18,8 +18,17 @@ class Controller extends BaseController
         return [
 	        'error' => [
 		        'message' => 'Validation failed',
-		        'errors' => $validator->errors()
+		        'details' => $validator->errors()
 	        ]
         ];
+    }
+
+    protected function errorJson($message = '', $code = 404)
+    {
+        return response()->json([
+                'error' => [
+                    'message' => $message,
+                ]
+            ], $code);   
     }
 }

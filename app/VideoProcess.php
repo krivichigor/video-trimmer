@@ -84,8 +84,7 @@ class VideoProcess extends Eloquent
     public function saveOriginalVideo(UploadedFile $file)
     {
         $video = new Video;
-        $video->createFromRequest($file);
-        $video->save();
+        $video->createFromFile($file)->save();
 
         $this->original_video()->associate($video);
         

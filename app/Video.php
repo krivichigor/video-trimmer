@@ -30,13 +30,14 @@ class Video extends Eloquent
      * Methods
     */
 
-    public function createFromRequest(UploadedFile $file)
+    public function createFromFile(UploadedFile $file)
     {
     	$video = new UploadedVideo($file);
     	$folder_path = 'videos/original'; ///' . $this->video_process->user->id . ' - path with user_id folder
 
 		$this->url 		= $video->moveFile($folder_path);
 		$this->duration = $video->getDuration();
+        return $this;
     }
 
     
