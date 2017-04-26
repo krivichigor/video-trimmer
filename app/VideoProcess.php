@@ -31,7 +31,7 @@ class VideoProcess extends Eloquent
      *
      * @var array
      */
-    protected $hidden = ['updated_at', 'user_id'];
+    protected $hidden = ['updated_at', 'user_id', 'original_video_id', 'result_video_id'];
 
 
     protected $dates = ['trim_finished_at'];
@@ -43,12 +43,12 @@ class VideoProcess extends Eloquent
 
     public function original_video()
     {
-        return $this->hasOne('App\Video');
+        return $this->belongsTo('App\Video');
     }
 
     public function result_video()
     {
-        return $this->hasOne('App\Video');
+        return $this->belongsTo('App\Video');
     }
 
     public function user()
@@ -116,9 +116,11 @@ class VideoProcess extends Eloquent
     public function saveOriginalVideo(UploadedFile $file)
     {
         $video = new Video;
-        $video->video_process()->associate($this);
         $video->createFromRequest($file);
         $video->save();
+
+        $this->original_video()->associate($video);
+        
     }
 
 

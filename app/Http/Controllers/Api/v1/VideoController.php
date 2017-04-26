@@ -18,7 +18,7 @@ class VideoController extends Controller
                               ->ordered()
                               ->withVideos()
                               ->get();
-                              
+
         return response()->json([
             'videos' => $videos
         ]);

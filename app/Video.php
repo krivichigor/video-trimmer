@@ -15,7 +15,7 @@ class Video extends Eloquent
 
     protected $fillable = ['url', 'duration'];
 
-    protected $hidden = ['created_at', 'updated_at', '_id', 'video_process_id'];
+    protected $hidden = ['created_at', 'updated_at', '_id', ];
     
     /*
      * Relations
@@ -23,7 +23,7 @@ class Video extends Eloquent
     
     public function video_process()
     {
-        return $this->belongsTo('App\VideoProcess');
+        return $this->hasOne('App\VideoProcess');
     }
 
     /*
@@ -33,7 +33,7 @@ class Video extends Eloquent
     public function createFromRequest(UploadedFile $file)
     {
     	$video = new UploadedVideo($file);
-    	$folder_path = 'videos/' . $this->video_process->user->id . '/original';
+    	$folder_path = 'videos/original'; ///' . $this->video_process->user->id . ' - path with user_id folder
 
 		$this->url 		= $video->moveFile($folder_path);
 		$this->duration = $video->getDuration();
