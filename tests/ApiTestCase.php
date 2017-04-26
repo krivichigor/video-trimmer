@@ -9,6 +9,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 abstract class ApiTestCase extends TestCase
 {
 
+    protected $user;
+
     public function get_auth_header(){
     	return ['Authorization' => 'Bearer ' . $this->get_api_token()];
     }
@@ -25,10 +27,13 @@ abstract class ApiTestCase extends TestCase
 
     public function get_api_token()
     {
-    	$user = new User;
-    	$user->api_token = $user->generateUniqueApiToken();
-    	$user->save();
-    	return $user->api_token;
+        if (!$this->user){
+        	$user = new User;
+        	$user->api_token = $user->generateUniqueApiToken();
+        	$user->save();
+            $this->user = $user;
+        }
+    	return $this->user->api_token;
     }
 
     public function getTestingFile($fileName)

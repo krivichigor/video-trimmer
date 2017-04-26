@@ -13,7 +13,6 @@ class VideoCreateTest extends ApiTestCase
 	const URL    = 'api/v1/videos';
 	const METHOD = 'POST';
     
-
     public function tests_creating_video_without_auth_expected_401()
     {
         $this->json(self::METHOD, self::URL)
@@ -95,15 +94,11 @@ class VideoCreateTest extends ApiTestCase
              	]));
     }
 
-    public function tests_creating_video_n_times_all_parameters_expected_201_and_checking_video_count()
+    public function tests_creating_video_n_times_all_parameters_expected_201_and_checking_()
     {
     	$times = 5;
     	$this->createVideoByRequest($times);
-
-        $responce = $this->json('GET', '/api/v1/videos', [], $this->get_auth_header())
-        				 ->decodeResponseJson();
-
-        $this->assertTrue(count($responce['data']) == $times);				 
+        $this->assertTrue($this->user->video_processes->count() == $times);				 
     }
 
 
