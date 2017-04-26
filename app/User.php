@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -54,5 +55,16 @@ class User extends Eloquent implements AuthenticatableContract, AuthorizableCont
             $api_token = str_random(60);
         }
         return $api_token;
+    }
+
+    public function createVideoProcess($data)
+    {
+        $videoProcess = $this->video_processes()->create([
+            'trim_from' => $data['trim_from'],
+            'trim_to' =>$data['trim_to']
+        ]);
+        $videoProcess->saveOriginalVideo($data['video']);
+        $videoProcess->setDefaultStatus();
+        return $videoProcess;
     }
 }

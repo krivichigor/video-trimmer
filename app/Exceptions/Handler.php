@@ -55,7 +55,11 @@ class Handler extends ExceptionHandler
                 $classNameWithNamespace = get_class($e);
                 $m = substr($classNameWithNamespace, strrpos($classNameWithNamespace, '\\')+1);
             }
-            return response()->json(['error' => ['message' => $m]], $e->getStatusCode());
+            if (method_exists($e, 'getStatusCode'))
+                $code = $e->getStatusCode();
+            else
+                $code = 500;
+            return response()->json(['error' => ['message' => $m]], $code);
         }
 
         return parent::prepareResponse($request, $e);
