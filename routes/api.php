@@ -14,8 +14,18 @@ use Illuminate\Http\Request;
 */
 
 
+Route::group([
+		'prefix' 	 => 'v1',
+		'middleware' => 'wants.json',
+		'namespace'  => 'Api\v1' 
+	],
+	function () {
+		Route::post('/users', 'UserController@store');
 
-//middleware('auth:api')->
-Route::group(['prefix' => 'v1', 'middleware' => 'wants.json' ], function () {
-	Route::post('/users', 'Api\v1\UserController@store');
+		Route::group(['middleware' => 'auth:api'], function () {
+			Route::post('/videos', 'VideoController@store');
+			Route::get('/videos', 'VideoController@index');
+			Route::put('/videos/{id}', 'VideoController@update');
+		});
+	
 });
