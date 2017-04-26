@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
+
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
@@ -17,7 +18,7 @@ class VideoController extends Controller
         $videos = VideoProcess::byUser($user_id)
                               ->ordered()
                               ->withVideos()
-                              ->get();
+                              ->paginate(env('RESULTS_PER_PAGE', 10));
 
         return response()->json([
             'videos' => $videos
